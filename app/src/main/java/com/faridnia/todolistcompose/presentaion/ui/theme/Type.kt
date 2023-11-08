@@ -1,4 +1,4 @@
-package com.faridnia.todolistcompose.ui.theme
+package com.faridnia.todolistcompose.presentaion.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
