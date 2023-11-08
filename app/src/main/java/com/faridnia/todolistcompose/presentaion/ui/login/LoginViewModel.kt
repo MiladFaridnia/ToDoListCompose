@@ -6,13 +6,16 @@ import com.faridnia.todolistcompose.Constants.DEFAULT_ERROR
 import com.faridnia.todolistcompose.data.remote.dto.login.LoginResponseDto
 import com.faridnia.todolistcompose.domain.use_case.LoginUseCase
 import com.faridnia.todolistcompose.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val useCase: LoginUseCase
 ) : ViewModel() {
 
