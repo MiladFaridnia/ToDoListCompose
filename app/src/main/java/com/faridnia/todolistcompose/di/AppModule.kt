@@ -2,6 +2,8 @@ package com.faridnia.todolistcompose.di
 
 import com.faridnia.todolistcompose.Constants
 import com.faridnia.todolistcompose.data.remote.ToDoListApi
+import com.faridnia.todolistcompose.data.repository.LoginRepositoryImpl
+import com.faridnia.todolistcompose.domain.repository.LoginRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,4 +34,11 @@ class AppModule {
             .build()
             .create(ToDoListApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(api: ToDoListApi): LoginRepository {
+        return LoginRepositoryImpl(api)
+    }
+
 }
