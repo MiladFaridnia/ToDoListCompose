@@ -1,4 +1,4 @@
-package com.faridnia.todolistcompose.data.remote.dto
+package com.faridnia.todolistcompose.data.remote.dto.login
 
 
 import com.google.gson.annotations.SerializedName

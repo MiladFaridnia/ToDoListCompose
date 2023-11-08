@@ -1,7 +1,7 @@
 package com.faridnia.todolistcompose.data.repository
 
 import com.faridnia.todolistcompose.data.remote.ToDoListApi
-import com.faridnia.todolistcompose.data.remote.dto.LoginResponseDto
+import com.faridnia.todolistcompose.data.remote.dto.login.LoginResponseDto
 import com.faridnia.todolistcompose.domain.repository.LoginRepository
 
 import javax.inject.Inject
