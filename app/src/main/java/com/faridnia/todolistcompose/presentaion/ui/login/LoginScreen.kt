@@ -131,17 +131,12 @@ fun LoginScreen(
             textValue = userName,
             onTextChanged = {
                 userName.value = it
-                onEvent(
-                    LoginEvent.OnLoginClick(
-                        userName.value
-                    )
-                )
             },
             labelText = "User Name",
             placeHolderText = "",
             supportingText = state.value.error,
             isError = state.value.error.isNotEmpty(),
-            keyboardType = KeyboardType.Email
+            keyboardType = KeyboardType.Text
         )
 
         Spacer(modifier = Modifier.weight(1f))

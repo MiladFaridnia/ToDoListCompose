@@ -90,4 +90,9 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
+    //Chucker http-interceptor
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
+
 }
