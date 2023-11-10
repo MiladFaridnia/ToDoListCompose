@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
         useCase(userName).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    if (isLoginSuccessful(result.data)) {
+                    if (isLoginSuccessful(result.data, userName)) {
                         _state.value =
                             LoginState(
                                 isLoading = false,
@@ -77,8 +77,10 @@ class LoginViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun isLoginSuccessful(result: LoginResponseDto?): Boolean {
-        return true
+    private fun isLoginSuccessful(result: LoginResponseDto?, userName: String): Boolean {
+        return result?.any {
+            it.username == userName
+        } == true
     }
 
     private fun resetState() {
