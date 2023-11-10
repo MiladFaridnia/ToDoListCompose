@@ -7,9 +7,9 @@ data class ToDoDtoItem(
     @SerializedName("completed")
     val completed: Boolean? = null,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int = 0,
     @SerializedName("title")
-    val title: String? = null,
+    val title: String = "",
     @SerializedName("userId")
     val userId: Int? = null
 )
