@@ -1,5 +1,7 @@
 package com.faridnia.todolistcompose.di
 
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.faridnia.todolistcompose.Constants
 import com.faridnia.todolistcompose.data.remote.ToDoListApi
 import com.faridnia.todolistcompose.data.repository.LoginRepositoryImpl
@@ -9,6 +11,7 @@ import com.faridnia.todolistcompose.domain.repository.ToDoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,11 +25,12 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideApi(): ToDoListApi {
+    fun provideApi(@ApplicationContext context: Context): ToDoListApi {
         val client = OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(ChuckerInterceptor(context))
             .build()
 
         return Retrofit.Builder()
