@@ -3,8 +3,8 @@ package com.faridnia.todolistcompose.presentaion.ui.todos
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -34,7 +34,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.faridnia.todolistcompose.R
 import com.faridnia.todolistcompose.data.remote.dto.to_do.ToDoDtoItem
-import com.faridnia.todolistcompose.presentaion.nav_graph.Screen
 import com.faridnia.todolistcompose.util.LightAndDarkPreview
 
 @LightAndDarkPreview
@@ -55,14 +54,6 @@ fun ToDosScreen(
 ) {
 
     val userName = rememberSaveable { mutableStateOf("") }
-
-    if (state.value.isSuccess) {
-        userName.value = ""
-        onEvent(ToDosEvent.OnResetToDosState)
-        navController.navigate(Screen.LoginScreen.route) {
-            popUpTo(Screen.LoginScreen.route)
-        }
-    }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -108,15 +99,14 @@ fun ToDosScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
-            contentPadding = PaddingValues(bottom = 12.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            items(getSample()/*state.value.toDoList*/) {
-                    ToDoItem(
-                        itemName = it.title,
-                        isChecked = it.completed == true,
-                        onClick = { }
-                    )
-
+            items(state.value.toDoList) {
+                ToDoItem(
+                    itemName = it.title,
+                    isChecked = it.completed == true,
+                    onClick = { }
+                )
             }
         }
 
