@@ -32,6 +32,10 @@ class ToDosViewModel @Inject constructor(
             ToDosEvent.OnResetToDosState -> {
                 resetState()
             }
+
+            ToDosEvent.OnRefreshData -> {
+                getTodos()
+            }
         }
     }
 
@@ -39,7 +43,7 @@ class ToDosViewModel @Inject constructor(
         return toDoResponseDto?.isNotEmpty() == true
     }
 
-    fun getTodos() {
+    private fun getTodos() {
 
         useCase().onEach { result ->
             when (result) {

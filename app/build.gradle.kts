@@ -94,5 +94,7 @@ dependencies {
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+
 
 }
