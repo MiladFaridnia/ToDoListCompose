@@ -35,6 +35,8 @@ import androidx.navigation.compose.rememberNavController
 import com.faridnia.todolistcompose.R
 import com.faridnia.todolistcompose.data.remote.dto.to_do.ToDoDtoItem
 import com.faridnia.todolistcompose.util.LightAndDarkPreview
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @LightAndDarkPreview
 @Composable
@@ -98,15 +100,26 @@ fun ToDosScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+        val swipeRefreshState = rememberSwipeRefreshState(
+            isRefreshing = state.value.isLoading
+        )
+
+        SwipeRefresh(state = swipeRefreshState,
+            onRefresh = {
+                onEvent(ToDosEvent.OnRefreshData)
+            }
         ) {
-            items(state.value.toDoList) {
-                ToDoItem(
-                    itemName = it.title,
-                    isChecked = it.completed == true,
-                    onClick = { }
-                )
+            LazyColumn(
+                modifier = Modifier.weight(1.0f),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(state.value.toDoList) {
+                    ToDoItem(
+                        itemName = it.title,
+                        isChecked = it.completed == true,
+                        onClick = { }
+                    )
+                }
             }
         }
 
