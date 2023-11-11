@@ -1,16 +1,17 @@
-package com.faridnia.todolistcompose.presentaion.ui.login
+package com.faridnia.todolistcompose.presentaion.ui.todos
 
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,43 +28,38 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.faridnia.todolistcompose.R
-import com.faridnia.todolistcompose.presentaion.component.CustomButton
-import com.faridnia.todolistcompose.presentaion.component.CustomTextInput
+import com.faridnia.todolistcompose.data.remote.dto.to_do.ToDoDtoItem
 import com.faridnia.todolistcompose.presentaion.nav_graph.Screen
 import com.faridnia.todolistcompose.util.LightAndDarkPreview
-import com.faridnia.todolistcompose.util.handleKeyboard
 
 @LightAndDarkPreview
 @Composable
-fun PreviewLoginScreen() {
-    LoginScreen(
-        state = remember { mutableStateOf(LoginState()) },
+fun PreviewToDosScreen() {
+    ToDosScreen(
+        state = remember { mutableStateOf(TodosState()) },
         onEvent = {},
         navController = rememberNavController()
     )
 }
 
 @Composable
-fun LoginScreen(
-    state: State<LoginState>,
-    onEvent: (LoginEvent) -> Unit,
+fun ToDosScreen(
+    state: State<TodosState>,
+    onEvent: (ToDosEvent) -> Unit,
     navController: NavController
 ) {
 
     val userName = rememberSaveable { mutableStateOf("") }
 
-    val scrollState = handleKeyboard()
-
     if (state.value.isSuccess) {
         userName.value = ""
-        onEvent(LoginEvent.OnResetLoginState)
-        navController.navigate(Screen.ToDosScreen.route) {
+        onEvent(ToDosEvent.OnResetToDosState)
+        navController.navigate(Screen.LoginScreen.route) {
             popUpTo(Screen.LoginScreen.route)
         }
     }
@@ -71,7 +67,7 @@ fun LoginScreen(
     DisposableEffect(Unit) {
         onDispose {
             Log.d("Milad", "Dispose LoginScreen")
-            onEvent(LoginEvent.OnResetLoginState)
+            onEvent(ToDosEvent.OnResetToDosState)
         }
     }
 
@@ -79,7 +75,6 @@ fun LoginScreen(
         horizontalAlignment = CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
             .background(color = MaterialTheme.colorScheme.surface)
             .padding(start = 24.dp, end = 24.dp),
     ) {
@@ -90,7 +85,7 @@ fun LoginScreen(
                 .padding(1.dp)
                 .width(50.dp)
                 .height(40.dp),
-            painter = painterResource(id = R.drawable.login),
+            painter = painterResource(id = R.drawable.todo_list),
             contentDescription = "To Do",
             contentScale = ContentScale.Fit
         )
@@ -101,7 +96,7 @@ fun LoginScreen(
             modifier = Modifier
                 .height(32.dp)
                 .align(CenterHorizontally),
-            text = "Welcome To Do List",
+            text = "To Do List",
             style = TextStyle(
                 fontSize = 24.sp,
                 lineHeight = 32.sp,
@@ -110,51 +105,33 @@ fun LoginScreen(
                 color = MaterialTheme.colorScheme.onSurface,
             )
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            modifier = Modifier.height(24.dp),
-            text = "Login to your account",
-            style = TextStyle(
-                fontSize = 14.sp,
-                lineHeight = 24.sp,
-                fontFamily = FontFamily(Font(R.font.raleway_light)),
-                fontWeight = FontWeight(400),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        CustomTextInput(
-            textValue = userName,
-            onTextChanged = {
-                userName.value = it
-            },
-            labelText = "User Name",
-            placeHolderText = "",
-            supportingText = state.value.error,
-            isError = state.value.error.isNotEmpty(),
-            keyboardType = KeyboardType.Text
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
         Spacer(modifier = Modifier.height(16.dp))
 
-        CustomButton(
-            modifier = Modifier.fillMaxWidth(),
-            buttonText = "Continue",
-            isEnabled = true,//state.value.error.isNotEmpty(),
-            isLoading = state.value.isLoading,
-            onClick = {
-                onEvent(LoginEvent.OnLoginClick(userName.value))
+        LazyColumn(
+            contentPadding = PaddingValues(bottom = 12.dp)
+        ) {
+            items(getSample()/*state.value.toDoList*/) {
+                    ToDoItem(
+                        itemName = it.title,
+                        isChecked = it.completed == true,
+                        onClick = { }
+                    )
+
             }
-        )
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
     }
+}
+
+fun getSample(): List<ToDoDtoItem> {
+    return listOf(
+        ToDoDtoItem(completed = true, id = 1, title = "title 1", userId = 10000),
+        ToDoDtoItem(completed = false, id = 1, title = "title 2", userId = 10000),
+        ToDoDtoItem(completed = true, id = 1, title = "title 3", userId = 10000),
+        ToDoDtoItem(completed = false, id = 1, title = "title 4", userId = 10000),
+        ToDoDtoItem(completed = true, id = 1, title = "title 5", userId = 10000)
+    )
 }
 
