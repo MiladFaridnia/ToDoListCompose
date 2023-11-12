@@ -1,6 +1,6 @@
 package com.faridnia.todolistcompose.presentaion.ui.todos
 
-import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.faridnia.todolistcompose.R
@@ -34,17 +35,16 @@ import com.faridnia.todolistcompose.util.LightAndDarkPreview
 @Composable
 fun PreviewToDoItem() {
     ToDoItem(
-        itemName = "New To Do",
-        drawableResourceId = R.drawable.tik,
+        itemName = "New To Do some big text to check wrap text in Row layout, instead of pushing siblings out",
         isChecked = true,
         onClick = {}
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ToDoItem(
     itemName: String,
-    @DrawableRes drawableResourceId: Int? = null,
     isChecked: Boolean,
     onClick: (String) -> Unit,
 ) {
@@ -70,21 +70,24 @@ fun ToDoItem(
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        if (drawableResourceId != null) {
-            Image(
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(24.dp),
-                painter = painterResource(id = drawableResourceId),
-                contentDescription = "country",
-                contentScale = ContentScale.Fit
-            )
+        Image(
+            modifier = Modifier
+                .width(24.dp)
+                .height(24.dp),
+            painter = painterResource(id = R.drawable.todo_list),
+            contentDescription = "country",
+            contentScale = ContentScale.Fit
+        )
 
-            Spacer(modifier = Modifier.width(12.dp))
-        }
+        Spacer(modifier = Modifier.width(12.dp))
 
         Text(
+            modifier = Modifier
+                .weight(1.0f)
+//                .basicMarquee()
+            ,
             text = itemName,
+            overflow = TextOverflow.Ellipsis,
             style = TextStyle(
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
@@ -93,14 +96,16 @@ fun ToDoItem(
                 color = MaterialTheme.colorScheme.onSurface,
             )
         )
+        Spacer(modifier = Modifier.width(12.dp))
 
-        Spacer(modifier = Modifier.weight(1.0f))
+//        Spacer(modifier = Modifier.weight(1.0f))
 
         if (isChecked) {
             Image(
                 modifier = Modifier
                     .width(24.dp)
                     .height(24.dp)
+//                    .weight(1f, fill = true)
                     .background(
                         color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 12.dp)
