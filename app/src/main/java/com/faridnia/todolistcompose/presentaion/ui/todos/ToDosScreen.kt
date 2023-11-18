@@ -42,7 +42,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @Composable
 fun PreviewToDosScreen() {
     ToDosScreen(
-        state = remember { mutableStateOf(TodosState()) },
+        state = remember { mutableStateOf(TodosState(toDoList = getSample())) },
         onEvent = {},
         navController = rememberNavController()
     )
@@ -57,12 +57,12 @@ fun ToDosScreen(
 
     val userName = rememberSaveable { mutableStateOf("") }
 
-    DisposableEffect(Unit) {
+/*    DisposableEffect(Unit) {
         onDispose {
             Log.d("Milad", "Dispose LoginScreen")
             onEvent(ToDosEvent.OnResetToDosState)
         }
-    }
+    }*/
 
     Column(
         horizontalAlignment = CenterHorizontally,
