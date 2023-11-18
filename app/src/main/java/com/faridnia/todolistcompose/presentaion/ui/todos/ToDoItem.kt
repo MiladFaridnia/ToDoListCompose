@@ -41,7 +41,6 @@ fun PreviewToDoItem() {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ToDoItem(
     itemName: String,
